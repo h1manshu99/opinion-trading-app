@@ -5,6 +5,7 @@ const http = require('http');
 const socketIo = require('socket.io');
 const jwt = require('jsonwebtoken');
 const bodyParser = require('body-parser');
+const requestLogger = require('./middleware/loggerMiddleware');
 
 const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/users');
@@ -17,7 +18,7 @@ const { settleTradesPeriodically } = require('./services/tradeSettlement');
 
 const app = express();
 const server = http.createServer(app);
-const io = socketIo(server, { cors: { origin: '*', methods: ['GET', 'POST'] } });
+const io = socketIo(server, { cors: { origin: '*'} });
 
 mongoose.connect('mongodb+srv://hemuchauhan31:iJECvQUyghppjsLK@cluster0.5ecyw.mongodb.net/')
 .then(() => {
@@ -35,7 +36,7 @@ app.use('/events', eventRoutes);
 app.use('/trades', tradeRoutes);
 
 app.use('/admin', authenticateJWT, authorizeAdmin, adminRoutes);
-
+app.use(requestLogger)
 
 io.on('connection', (socket) => {
   console.log('Client connected:', socket.id);

@@ -76,4 +76,23 @@ router.post('/settle-trades', async (req, res) => {
   }
 });
 
+// PUT /admin/update-balance/:userId
+router.put('/update-balance/:userId', async (req, res) => {
+  const { userId } = req.params;
+  const { amount } = req.body; // amount to set or add
+
+  try {
+    const user = await User.findById(userId);
+    if (!user) return res.status(404).json({ message: 'User not found' });
+
+    user.balance = amount; // or user.balance += amount;
+    await user.save();
+
+    res.json({ message: 'Balance updated', balance: user.balance });
+  } catch (err) {
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+
 module.exports = router;

@@ -36,8 +36,9 @@ This is the backend for an **opinion trading platform** where users can place tr
 │   └── Trade.js
 ├── routes/               # Express routes
 │   ├── auth.js
-│   ├── user.js
-│   ├── trade.js
+│   ├── events.js
+│   ├── users.js
+│   ├── trades.js
 │   └── admin.js
 ├── middleware/           # Auth and error handling middleware
 ├── services/             # Business logic (trade settlement)
@@ -112,7 +113,7 @@ npm start
 
 ## WebSocket
 
-- Connect to: `ws://localhost:5000`
+- Connect to: `ws://localhost:3000`
 - Events emitted:
   - `eventUpdate` - Event updates
   - `tradeUpdate` - Trade settlement updates
@@ -121,7 +122,7 @@ npm start
 
 ## Database Models
 
-- **User**: username, password, balance, role
+- **User**: username, password, balance, role, email
 - **Event**: title, description, odds, status, outcome
 - **Trade**: user, event, amount, prediction, status, result
 
